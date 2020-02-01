@@ -127,7 +127,7 @@ GameObject:
   - component: {fileID: 495821599}
   m_Layer: 0
   m_Name: Bot
-  m_TagString: Untagged
+  m_TagString: Bot
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -146,6 +146,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: 1
   activated: 1
+  waiting: 0
 --- !u!212 &495821600
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -202,7 +203,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 495821598}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -7.39, y: 2.84, z: 0}
+  m_LocalPosition: {x: -5, y: 2, z: 0}
   m_LocalScale: {x: 5, y: 5, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -254,7 +255,7 @@ Rigidbody2D:
   m_Interpolate: 1
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!1 &1147380407
 GameObject:
   m_ObjectHideFlags: 0

@@ -8,11 +8,15 @@ public class Robot : MonoBehaviour
     public int player = 1;
     public bool activated = false;
     private bool isFighting = false;
+    public bool waiting = false;
     private float speed = 1;
     private Vector2 movement;
     private Rigidbody2D rb;
-    private int hp;
+    private int hp = 5;
+    private int dmg = 1;
     private Upgrade myUpgrade;
+    private Robot rival;
+    private Robot buddy;
 
     private void Start()
     {
@@ -20,19 +24,57 @@ public class Robot : MonoBehaviour
         movement = new Vector2(0, 0);
     }
 
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if(collision.gameObject.CompareTag("Bot"))
+        {
+            Robot foundBot = collision.gameObject.GetComponent<Robot>();
+            if (foundBot.player != this.player)
+            {
+                isFighting = true;
+                rival = foundBot;
+                foundBot.rival = this;
+            }
+            else
+            {
+                if(player == 1)
+                {
+                    if(collision.transform.position.x > this.transform.position.x)
+                    {
+                        foundBot.buddy = this;
+                        waiting = true;
+                    }
+                }
+                else
+                {
+                    if (collision.transform.position.x < this.transform.position.x)
+                    {
+                        foundBot.buddy = this;
+                        waiting = true;
+                    }
+                }
+            }
+        }
+    }
+
+    private IEnumerator Fight()
+    {
+        yield return null;
+    }
+
     private void FixedUpdate()
     {
-        if(activated && !isFighting)
+        if(activated && !isFighting && !waiting)
         {
             movement.x = speed;
+            if (player == 2)
+            {
+                movement.x *= -1;
+            }
         }
         else
         {
             movement.x = 0;
-        }
-        if(player == 2)
-        {
-            movement.x *= -1;
         }
         rb.velocity = movement;
     }
@@ -44,7 +86,9 @@ public class Robot : MonoBehaviour
 
     private void Death()
     {
-
+        buddy.waiting = false;
+        rival.isFighting = false;
+        Destroy(this.gameObject);
     }
 
     private void TakeDamage(int dmg)
